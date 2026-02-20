@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+</head>
+<body>
+    <header>
+        <h1><a href="{{ '/' | relative_url }}">我的个人博客</a></h1>
+        <nav>
+            <a href="{{ '/' | relative_url }}">首页</a> | 
+            <a href="{{ '/about' | relative_url }}">关于</a>
+        </nav>
+    </header>
+
+    <main>
+        {{ content }}
+    </main>
+
+    <footer>
+        <p>© 2026 个人版权所有</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# blog
+A boring blog
