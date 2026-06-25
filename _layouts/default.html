@@ -30,6 +30,50 @@
         // 注册滚动触发插件
         gsap.registerPlugin(ScrollTrigger);
 
+        // 打字机效果动画
+        document.addEventListener("DOMContentLoaded", () => {
+            const line1 = document.querySelector(".apple-title-1 .line-1");
+            const line2 = document.querySelector(".apple-title-1 .line-2");
+            
+            if (line1 && line2) {
+                const text1 = "Simple is better";
+                const text2 = "than complex.";
+                
+                // 创建闪烁的光标
+                const cursor = document.createElement("span");
+                cursor.className = "typing-cursor";
+                cursor.textContent = "|";
+                
+                line1.appendChild(cursor);
+                
+                let i = 0;
+                let j = 0;
+                const speed = 100; // 打字速度（毫秒）
+                
+                function typeLine1() {
+                    if (i < text1.length) {
+                        cursor.before(text1[i]);
+                        i++;
+                        setTimeout(typeLine1, speed);
+                    } else {
+                        // 第一行打完，光标移到第二行
+                        line2.appendChild(cursor);
+                        setTimeout(typeLine2, speed * 4); // 停顿一下再打第二行
+                    }
+                }
+                
+                function typeLine2() {
+                    if (j < text2.length) {
+                        cursor.before(text2[j]);
+                        j++;
+                        setTimeout(typeLine2, speed);
+                    }
+                }
+                
+                setTimeout(typeLine1, 600); // 稍微延迟开始，给页面加载留出时间
+            }
+        });
+
         // 1. 第一幕：大字随滚动平滑放大并淡出
         gsap.to(".apple-title-1", {
             scrollTrigger: {

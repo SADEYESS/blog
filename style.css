@@ -99,6 +99,21 @@ body {
     margin-left: 15%; /* “至简” 向右缩进，形成错落有致的视觉效果 */
 }
 
+/* 打字机光标动画 */
+.typing-cursor {
+    display: inline-block;
+    color: #0071e3;
+    font-weight: 300;
+    margin-left: 4px;
+    animation: cursor-blink 0.8s infinite;
+    -webkit-text-fill-color: #0071e3 !important; /* 覆盖渐变色文字的透明填充属性 */
+}
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 .apple-title-2 {
     font-size: clamp(2.2rem, 5vw, 4rem);
     font-weight: 800;
