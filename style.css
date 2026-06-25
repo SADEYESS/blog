@@ -83,9 +83,20 @@ body {
 .apple-title-1 {
     font-size: clamp(3rem, 7vw, 5.5rem); /* 随屏幕大小平滑缩放的响应式字号 */
     font-weight: 900;
-    line-height: 1.05;
+    line-height: 1.15;
     letter-spacing: -0.04em; /* 极其紧凑的字距，高逼格的核心 */
     color: #1d1d1f;
+    display: flex;
+    flex-direction: column;
+}
+
+.apple-title-1 .line-1 {
+    align-self: flex-start; /* “大道” 居左 */
+}
+
+.apple-title-1 .line-2 {
+    align-self: flex-start;
+    margin-left: 15%; /* “至简” 向右缩进，形成错落有致的视觉效果 */
 }
 
 .apple-title-2 {
