@@ -46,7 +46,7 @@ body {
     text-decoration: none;
     color: #86868b;
     font-size: 0.95rem;
-    margin-left: 30px;
+    margin: 0 15px;
     font-weight: 500;
     transition: color 0.3s ease;
 }
