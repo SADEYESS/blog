@@ -2,24 +2,76 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap">
     <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
 </head>
 <body>
-    <header>
-        <h1><a href="{{ '/' | relative_url }}">我的个人博客</a></h1>
+    <header class="nav-header">
+        <h1><a href="{{ '/' | relative_url }}">SAD EYE</a></h1>
         <nav>
-            <a href="{{ '/' | relative_url }}">首页</a> | 
+            <a href="{{ '/' | relative_url }}">首页</a>
             <a href="{{ '/about' | relative_url }}">关于</a>
         </nav>
     </header>
 
-    <main>
+    <main class="site-main">
         {{ content }}
     </main>
 
-    <footer>
-        <p>© 2026 个人版权所有</p>
+    <footer class="site-footer">
+        <p>© 2026 SAD EYE. 保持克制，保持灵动。</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        // 注册滚动触发插件
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. 第一幕：大字随滚动平滑放大并淡出
+        gsap.to(".apple-title-1", {
+            scrollTrigger: {
+                trigger: ".hero-section-1",
+                start: "top top",
+                end: "bottom top",
+                scrub: true, // 关键：动画紧密绑定滚轮滚动速度
+                pin: true    // 滚动时固定住当前视口
+            },
+            scale: 1.15,
+            opacity: 0,
+            y: -50
+        });
+
+        // 2. 第二幕：副标题随滚动平滑淡入并上浮
+        gsap.fromTo(".apple-title-2", 
+            { opacity: 0, y: 100, scale: 0.9 },
+            {
+                scrollTrigger: {
+                    trigger: ".hero-section-2",
+                    start: "top bottom",
+                    end: "center center",
+                    scrub: 1 // 带有 1 秒的物理惯性缓冲，极为丝滑
+                },
+                opacity: 1,
+                y: 0,
+                scale: 1
+            }
+        );
+
+        // 3. 第三幕：文章列表优雅淡入
+        gsap.from(".post-card", {
+            scrollTrigger: {
+                trigger: ".blog-list-section",
+                start: "top 80%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            stagger: 0.1 // 列表项错落有致地依次淡入
+        });
+    </script>
 </body>
 </html>

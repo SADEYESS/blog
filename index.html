@@ -3,12 +3,34 @@ layout: default
 title: 首页
 ---
 
-<h2>文章列表</h2>
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <span>{{ post.date | date: "%Y-%m-%d" }}</span> &raquo; 
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+<section class="scroll-section hero-section-1">
+  <div class="text-container">
+    <h1 class="apple-title-1">
+      Simple is better<br>
+      <span class="gradient-text">than complex.</span>
+    </h1>
+  </div>
+</section>
+
+<section class="scroll-section hero-section-2">
+  <div class="text-container">
+    <h2 class="apple-title-2">
+      专注于微交互<br>
+      与<span class="underlined-text">极简美学</span>的交融。
+    </h2>
+  </div>
+</section>
+
+<section class="blog-list-section">
+  <div class="content-wrapper">
+    <h3 class="section-title">沉淀与思考 <span class="animated-dot"></span></h3>
+    <ul class="apple-post-list">
+      {% for post in site.posts %}
+        <li class="post-card">
+          <span class="post-date">{{ post.date | date: "%Y年%m月%d日" }}</span>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
