@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: "我的第一篇博客：开启动态排版"
 date: 2026-02-20
 ---
