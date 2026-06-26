@@ -120,6 +120,17 @@ body {
     line-height: 1.15;
     letter-spacing: -0.03em;
     color: #1d1d1f;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 子元素默认向右对齐，保证“至简”在最右边 */
+}
+
+.apple-title-2 .line-1 {
+    margin-right: 1.5em; /* “大道” 向左推移 1.5 个字符字宽的距离，实现错落感 */
+}
+
+.apple-title-2 .line-2 {
+    align-self: flex-end; /* 确保“至简”稳稳停留在最右侧 */
 }
 
 /* 渐变文本 */
