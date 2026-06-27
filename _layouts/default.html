@@ -150,22 +150,7 @@
         });
     </script>
 
-    <!-- HTML5 Canvas Water Ripple SVG Filter Definition -->
-    <svg style="display: none;">
-        <defs>
-            <filter id="ripple-filter" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
-                <feImage id="fe-image-map" href="" result="map" />
-                <feDisplacementMap 
-                    in="SourceGraphic" 
-                    in2="map" 
-                    scale="50" 
-                    xChannelSelector="R" 
-                    yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
-
-    <!-- Load interactive water ripple physics simulation -->
+    <!-- Load lightweight mouse ripple effect -->
     <script defer src="{{ '/ripple.js' | relative_url }}"></script>
 </body>
 </html>
