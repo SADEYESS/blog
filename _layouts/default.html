@@ -43,7 +43,7 @@
     <header class="nav-header">
         <h1><a href="{{ '/' | relative_url }}">我的个人博客</a></h1>
         <nav>
-            <a href="{{ '/' | relative_url }}">首页</a> 
+            <a href="{{ '/' | relative_url }}#blog-list">首页</a> 
             <a href="{{ '/about' | relative_url }}">关于</a>
         </nav>
     </header>
@@ -149,5 +149,23 @@
             stagger: 0.1 // 列表项错落有致地依次淡入
         });
     </script>
+
+    <!-- HTML5 Canvas Water Ripple SVG Filter Definition -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="ripple-filter" filterUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%">
+                <feImage id="fe-image-map" href="" result="map" />
+                <feDisplacementMap 
+                    in="SourceGraphic" 
+                    in2="map" 
+                    scale="50" 
+                    xChannelSelector="R" 
+                    yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Load interactive water ripple physics simulation -->
+    <script defer src="{{ '/ripple.js' | relative_url }}"></script>
 </body>
 </html>

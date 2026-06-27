@@ -13,6 +13,7 @@ body {
     color: #1d1d1f; /* Apple 专属非纯黑深灰，更柔和高级 */
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased; /* 强制开启文本抗锯齿，使字体更纤细 */
+    filter: url(#ripple-filter); /* 应用水波折射滤镜 */
 }
 
 /* ==========================================================================
@@ -72,9 +73,9 @@ body {
     max-width: 1100px;
 }
 
-/* 第二幕中文文本居右排版，与第一幕英文居左形成视觉对称 */
 .hero-section-2 .text-container {
-    text-align: right;
+    display: flex;
+    justify-content: center;
 }
 
 /* ==========================================================================
@@ -120,17 +121,17 @@ body {
     line-height: 1.15;
     letter-spacing: -0.03em;
     color: #1d1d1f;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    align-items: flex-end; /* 子元素默认向右对齐，保证“至简”在最右边 */
+    align-items: flex-start; /* 改为向左对齐，便于通过左边距控制错位 */
 }
 
 .apple-title-2 .line-1 {
-    margin-right: 1.5em; /* “大道” 向左推移 1.5 个字符字宽的距离，实现错落感 */
+    /* “大道”保持在左侧起始位置 */
 }
 
 .apple-title-2 .line-2 {
-    align-self: flex-end; /* 确保“至简”稳稳停留在最右侧 */
+    margin-left: 1.5em; /* “至简”向右推移，实现精美的字体错落感 */
 }
 
 /* 渐变文本 */
