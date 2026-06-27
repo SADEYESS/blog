@@ -6,6 +6,36 @@
     <title>{{ page.title }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap">
     <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <!-- Auto-render Extension -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="initKaTeX()"></script>
+    <script>
+        function initKaTeX() {
+            // 渲染普通文本中的 $...$ 和 $$...$$
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+
+            // 渲染 Jekyll Kramdown 编译生成的 <script type="math/tex"> 标签
+            document.querySelectorAll('script[type="math/tex"]').forEach(node => {
+                const el = document.createElement('span');
+                katex.render(node.textContent, el, { displayMode: false, throwOnError: false });
+                node.parentNode.replaceChild(el, node);
+            });
+            document.querySelectorAll('script[type="math/tex; mode=display"]').forEach(node => {
+                const el = document.createElement('div');
+                katex.render(node.textContent, el, { displayMode: true, throwOnError: false });
+                node.parentNode.replaceChild(el, node);
+            });
+        }
+    </script>
 </head>
 <body>
     <header class="nav-header">
