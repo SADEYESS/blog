@@ -1,2 +1,2 @@
 # blog
-A boring blog
+个人博客网站

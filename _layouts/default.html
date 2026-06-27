@@ -14,11 +14,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="initKaTeX()"></script>
     <script>
         function initKaTeX() {
-            // 渲染普通文本中的 $...$ 和 $$...$$
+            // 渲染普通文本中的 $...$、$$...$$ 以及 Kramdown 转换后的 \[...\]、\(...\)
             renderMathInElement(document.body, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
                 ],
                 throwOnError: false
             });
