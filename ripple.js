@@ -1,37 +1,76 @@
 (function() {
-    // 极致轻量水波效果：纯 CSS transform + radial-gradient，零 Canvas/SVG 开销
     document.addEventListener("DOMContentLoaded", () => {
-        // 创建鼠标跟随的凹陷光晕层
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const finePointer = window.matchMedia('(pointer: fine)');
+
+        if (reduceMotion.matches || !finePointer.matches) {
+            return;
+        }
+
+        const IDLE_HIDE_DELAY = 900;
+        const MAX_CLICK_RINGS = 4;
         const rippleLayer = document.createElement('div');
+        const activeRings = [];
+        let ticking = false;
+        let latestX = -200;
+        let latestY = -200;
+        let idleTimer = 0;
+
         rippleLayer.className = 'mouse-ripple-layer';
+        rippleLayer.setAttribute('aria-hidden', 'true');
         document.body.appendChild(rippleLayer);
 
-        // 鼠标移动时更新凹陷位置（使用 CSS 变量驱动，GPU 合成）
-        let ticking = false;
-        window.addEventListener('mousemove', (e) => {
-            if (ticking) return;
-            ticking = true;
-            requestAnimationFrame(() => {
-                rippleLayer.style.setProperty('--mx', e.clientX + 'px');
-                rippleLayer.style.setProperty('--my', e.clientY + 'px');
-                rippleLayer.style.opacity = '1';
-                ticking = false;
-            });
-        });
+        function showRippleLayer() {
+            window.clearTimeout(idleTimer);
+            rippleLayer.classList.add('is-visible');
+            idleTimer = window.setTimeout(hideRippleLayer, IDLE_HIDE_DELAY);
+        }
 
-        // 鼠标离开视口时隐藏
-        document.addEventListener('mouseleave', () => {
-            rippleLayer.style.opacity = '0';
-        });
+        function hideRippleLayer() {
+            rippleLayer.classList.remove('is-visible');
+        }
 
-        // 点击时产生扩散涟漪环
-        window.addEventListener('click', (e) => {
+        function renderPointerPosition() {
+            rippleLayer.style.setProperty('--mx', latestX + 'px');
+            rippleLayer.style.setProperty('--my', latestY + 'px');
+            showRippleLayer();
+            ticking = false;
+        }
+
+        window.addEventListener('pointermove', (event) => {
+            latestX = event.clientX;
+            latestY = event.clientY;
+
+            if (!ticking) {
+                ticking = true;
+                window.requestAnimationFrame(renderPointerPosition);
+            }
+        }, { passive: true });
+
+        document.addEventListener('pointerleave', hideRippleLayer, { passive: true });
+        window.addEventListener('blur', hideRippleLayer, { passive: true });
+
+        window.addEventListener('click', (event) => {
             const ring = document.createElement('div');
             ring.className = 'click-ripple-ring';
-            ring.style.left = e.clientX + 'px';
-            ring.style.top = e.clientY + 'px';
+            ring.style.left = event.clientX + 'px';
+            ring.style.top = event.clientY + 'px';
+
+            activeRings.push(ring);
             document.body.appendChild(ring);
-            ring.addEventListener('animationend', () => ring.remove());
-        });
+
+            while (activeRings.length > MAX_CLICK_RINGS) {
+                const oldRing = activeRings.shift();
+                oldRing.remove();
+            }
+
+            ring.addEventListener('animationend', () => {
+                const index = activeRings.indexOf(ring);
+                if (index >= 0) {
+                    activeRings.splice(index, 1);
+                }
+                ring.remove();
+            }, { once: true });
+        }, { passive: true });
     });
 })();

@@ -362,21 +362,24 @@ body {
 /* 鼠标跟随凹陷光晕层 */
 .mouse-ripple-layer {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     pointer-events: none;
     z-index: 9999;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.24s ease;
     background: radial-gradient(
         circle 120px at var(--mx, -200px) var(--my, -200px),
-        rgba(0, 113, 227, 0.06) 0%,
-        rgba(0, 113, 227, 0.02) 40%,
-        transparent 70%
+        rgba(0, 113, 227, 0.07) 0%,
+        rgba(0, 113, 227, 0.025) 42%,
+        transparent 72%
     );
     mix-blend-mode: multiply;
+    will-change: opacity, background;
+    contain: layout style paint;
+}
+
+.mouse-ripple-layer.is-visible {
+    opacity: 1;
 }
 
 /* 点击扩散涟漪环 */
@@ -389,7 +392,8 @@ body {
     border-radius: 50%;
     border: 1.5px solid rgba(0, 113, 227, 0.25);
     transform: translate(-50%, -50%) scale(1);
-    animation: ripple-expand 0.6s ease-out forwards;
+    animation: ripple-expand 0.55s ease-out forwards;
+    will-change: transform, opacity;
 }
 
 @keyframes ripple-expand {
@@ -400,5 +404,12 @@ body {
     100% {
         transform: translate(-50%, -50%) scale(40);
         opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mouse-ripple-layer,
+    .click-ripple-ring {
+        display: none;
     }
 }
