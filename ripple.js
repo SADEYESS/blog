@@ -1,9 +1,10 @@
 (function() {
     document.addEventListener("DOMContentLoaded", () => {
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const finePointer = window.matchMedia('(pointer: fine)');
+        const finePointer = window.matchMedia('(any-pointer: fine)');
+        const hoverPointer = window.matchMedia('(hover: hover)');
 
-        if (reduceMotion.matches || !finePointer.matches) {
+        if (reduceMotion.matches || (!finePointer.matches && !hoverPointer.matches)) {
             return;
         }
 
