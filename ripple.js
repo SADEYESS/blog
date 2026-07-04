@@ -4,7 +4,7 @@
         const finePointer = window.matchMedia('(any-pointer: fine)');
         const hoverPointer = window.matchMedia('(hover: hover)');
 
-        if (reduceMotion.matches || (!finePointer.matches && !hoverPointer.matches)) {
+        if (!finePointer.matches && !hoverPointer.matches) {
             return;
         }
 
@@ -51,27 +51,29 @@
         document.addEventListener('pointerleave', hideRippleLayer, { passive: true });
         window.addEventListener('blur', hideRippleLayer, { passive: true });
 
-        window.addEventListener('click', (event) => {
-            const ring = document.createElement('div');
-            ring.className = 'click-ripple-ring';
-            ring.style.left = event.clientX + 'px';
-            ring.style.top = event.clientY + 'px';
+        if (!reduceMotion.matches) {
+            window.addEventListener('click', (event) => {
+                const ring = document.createElement('div');
+                ring.className = 'click-ripple-ring';
+                ring.style.left = event.clientX + 'px';
+                ring.style.top = event.clientY + 'px';
 
-            activeRings.push(ring);
-            document.body.appendChild(ring);
+                activeRings.push(ring);
+                document.body.appendChild(ring);
 
-            while (activeRings.length > MAX_CLICK_RINGS) {
-                const oldRing = activeRings.shift();
-                oldRing.remove();
-            }
-
-            ring.addEventListener('animationend', () => {
-                const index = activeRings.indexOf(ring);
-                if (index >= 0) {
-                    activeRings.splice(index, 1);
+                while (activeRings.length > MAX_CLICK_RINGS) {
+                    const oldRing = activeRings.shift();
+                    oldRing.remove();
                 }
-                ring.remove();
-            }, { once: true });
-        }, { passive: true });
+
+                ring.addEventListener('animationend', () => {
+                    const index = activeRings.indexOf(ring);
+                    if (index >= 0) {
+                        activeRings.splice(index, 1);
+                    }
+                    ring.remove();
+                }, { once: true });
+            }, { passive: true });
+        }
     });
 })();

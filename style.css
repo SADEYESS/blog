@@ -408,8 +408,12 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .mouse-ripple-layer,
+    .mouse-ripple-layer {
+        transition: none;
+    }
+
     .click-ripple-ring {
         display: none;
+        animation: none;
     }
 }
