@@ -1,2 +1,16 @@
-baseurl: "/blog" 
+baseurl: "/blog"
 url: "https://sadeyess.github.io"
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  parse_block_html: true
+  syntax_highlighter: rouge
+
+defaults:
+  - scope:
+      type: posts
+    values:
+      layout: post

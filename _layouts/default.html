@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
+    <title>{{ page.title | escape }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap">
     <link rel="stylesheet" href="{{ '/style.css' | relative_url }}">
     <!-- KaTeX CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css">
     <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"></script>
     <!-- Auto-render Extension -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="initKaTeX()"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"></script>
     <script>
-        function initKaTeX() {
-            // 渲染普通文本中的 $...$、$$...$$ 以及 Kramdown 转换后的 \[...\]、\(...\)
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof katex === "undefined" || typeof renderMathInElement !== "function") return;
+
             renderMathInElement(document.body, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
                     {left: '$', right: '$', display: false},
                     {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '\\begin{equation}', right: '\\end{equation}', display: true},
+                    {left: '\\begin{align}', right: '\\end{align}', display: true}
                 ],
                 throwOnError: false
             });
@@ -36,7 +39,7 @@
                 katex.render(node.textContent, el, { displayMode: true, throwOnError: false });
                 node.parentNode.replaceChild(el, node);
             });
-        }
+        });
     </script>
 </head>
 <body>
@@ -147,6 +150,37 @@
             y: 30,
             duration: 0.8,
             stagger: 0.1 // 列表项错落有致地依次淡入
+        });
+    </script>
+
+    <!-- Render fenced Mermaid diagrams after the page and fonts are loaded. -->
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+        window.addEventListener("load", async () => {
+            document.querySelectorAll(
+                ".post-container pre > code.language-mermaid, .post-container pre > code.lang-mermaid"
+            ).forEach(code => {
+                const diagram = document.createElement("div");
+                diagram.className = "mermaid";
+                diagram.textContent = code.textContent;
+                code.parentElement.replaceWith(diagram);
+            });
+
+            const diagrams = document.querySelectorAll(".post-container .mermaid");
+            if (!diagrams.length) return;
+
+            mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: "strict",
+                theme: "default"
+            });
+
+            try {
+                await mermaid.run({ nodes: diagrams });
+            } catch (error) {
+                console.error("Mermaid rendering failed:", error);
+            }
         });
     </script>
 
