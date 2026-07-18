@@ -246,7 +246,8 @@ body {
    ========================================================================== */
 /* 为非首页内容（普通页面或文章）提供一个舒适的阅读容器 */
 .post-container {
-    max-width: 900px;
+    width: 92%;
+    max-width: 1200px;
     margin: 6rem auto 4rem auto; /* 6rem 留出顶部固定导航栏的距离 */
     padding: 0 24px;
     animation: fadeIn 0.8s ease-out;
@@ -393,6 +394,7 @@ body {
 .post-container img,
 .post-container video {
     display: block;
+    width: 100%;
     max-width: 100%;
     height: auto;
     margin: 1.5rem auto;
@@ -470,6 +472,7 @@ body {
 
 .post-container .mermaid svg {
     display: block;
+    width: 100%;
     max-width: 100%;
     height: auto;
     margin: 0 auto;
